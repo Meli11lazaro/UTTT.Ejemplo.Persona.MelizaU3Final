@@ -76,9 +76,7 @@ namespace UTTT.Ejemplo.Persona
                     if (this.idPersona == 0)
                     {
                         this.lblAccion.Text = "Agregar";
-                        DateTime tiempo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-                        this.FechaNaci.TodaysDate = tiempo;
-                        this.FechaNaci.SelectedDate = tiempo;
+                        this.val.Value = null;
                     }
                     else
                     {
@@ -192,6 +190,29 @@ namespace UTTT.Ejemplo.Persona
                     persona.strRfc = this.txtRfc.Text.Trim();
                     persona.strCPostal = this.txtCPostal.Text.Trim();
 
+                    String mensaje = String.Empty;
+                    if (!this.validacion(persona, ref mensaje))
+                    {
+                        this.Error.Text = mensaje;
+                        this.Error.Visible = true;
+                        return;
+                    }
+
+
+                    if (!this.validaSql(ref mensaje))
+                    {
+                        this.Error.Text = mensaje;
+                        this.Error.Visible = true;
+                        return;
+                    }
+
+                    if (!this.validaHTML(ref mensaje))
+                    {
+                        this.Error.Text = mensaje;
+                        this.Error.Visible = true;
+                        return;
+                    }
+
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se edito correctamente.");
                     this.Response.Redirect("~/PersonaPrincipal.aspx", false);
@@ -258,11 +279,13 @@ namespace UTTT.Ejemplo.Persona
 
         public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona, ref String _mensaje)
         {
+
             if (_persona.idCatSexo == -1)
             {
                 _mensaje = "Seleccione Masculino o Femenino";
                 return false;
             }
+
             int i = 0;
             if (int.TryParse(_persona.strClaveUnica, out i) == false)
             {
@@ -276,27 +299,48 @@ namespace UTTT.Ejemplo.Persona
             }
             if (int.Parse(_persona.strClaveUnica) < 000 || int.Parse(_persona.strClaveUnica) > 999)
             {
-                _mensaje = "La clave debe de constar de 3 digitos";
+                _mensaje = "La clave debe de constar de 3 numeros";
                 return false;
             }
+
+
             if (_persona.strNombre.Equals(String.Empty))
             {
                 _mensaje = "Nombre esta vacio";
                 return false;
             }
-            if (_persona.strNombre.Length > 15)
+            if (_persona.strNombre.Length > 50)
             {
                 _mensaje = "Los caracteres permitidos para nombre rebasan lo establecido";
                 return false;
             }
+
+
             if (_persona.strAPaterno.Equals(String.Empty))
             {
                 _mensaje = "Apellido Paterno esta vacio";
                 return false;
             }
-            if (_persona.strAPaterno.Length > 15)
+            if (_persona.strAPaterno.Length > 50)
             {
                 _mensaje = "Los caracteres permitidos para Apellido Paterno rebasan lo establecido";
+                return false;
+            }
+
+            if (_persona.strAMaterno.Equals(String.Empty))
+            {
+                _mensaje = "Apellido Materno esta vacio";
+                return false;
+            }
+            if (_persona.strAPaterno.Length > 50)
+            {
+                _mensaje = "Los caracteres permitidos para Apellido Materno rebasan lo establecido";
+                return false;
+            }
+
+            if (_persona.strNHermanos.Equals(String.Empty))
+            {
+                _mensaje = "Numero de hermanos esta vacio";
                 return false;
             }
             if (int.TryParse(_persona.strNHermanos.ToString(), out i) == false)
@@ -309,6 +353,7 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "Los numeros de hermanos no deben ser menores a cero";
                 return false;
             }
+
             if (_persona.strCorreo.Equals(String.Empty))
             {
                 _mensaje = "Correo Electronico esta vacio";
@@ -346,17 +391,30 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "El codigo postal debe de constar de 5 numeros";
                 return false;
             }
+            if (_persona.strFechaN.ToString().Equals("01/01/0001 12:00:00 a. m."))
+            {
+                _mensaje = "El campo fecha de nacimiento es requerido";
+                return false;
+            }
 
-            DateTime? fecha = this.baseEntity.strFechaN;
-            this.val.Value = fecha.ToString();
-            TimeSpan timeSpan = DateTime.Now - fecha.Value.Date;
+            //Validacion Calendario
+            DateTime? fechaNacimiento = this.baseEntity.strFechaN;
+            this.val.Value = fechaNacimiento.ToString();
+            TimeSpan timeSpan = DateTime.Now - fechaNacimiento.Value.Date;
             if (timeSpan.Days < 6570)
             {
                 _mensaje = "La persona es menor de edad";
                 return false;
             }
+            if (timeSpan.Days >= 737821)
+            {
+                _mensaje = "La persona es menor de edad, ingrese una fecha correcta";
+                return false;
+            }
+
             return true;
         }
+
 
 
 

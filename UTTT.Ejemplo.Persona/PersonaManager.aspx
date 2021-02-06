@@ -50,9 +50,9 @@
         
             Clave Unica:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
             <div style="margin-left: 420px">
-            <asp:TextBox ID="txtClaveUnica" runat="server" Width="249px" ViewStateMode="Disabled" MaxLength="3" Class="form-control" placeholder="Clave"></asp:TextBox>
+            <asp:TextBox ID="txtClaveUnica" runat="server" Width="249px" ViewStateMode="Disabled" MaxLength="3" Class="form-control" placeholder="Clave" required='required'></asp:TextBox>
         
-            <asp:RegularExpressionValidator ID="RevClave" runat="server" ControlToValidate="txtClaveUnica" ErrorMessage="La clave debe contener 3 digitos" ValidationExpression="^\d+$"></asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="RevClave" runat="server" ControlToValidate="txtClaveUnica" ErrorMessage="La clave debe contener 3 digitos" ValidationExpression="\d{3}"></asp:RegularExpressionValidator>
         
         </div>
             </div>
@@ -65,9 +65,9 @@
         
             Nombre:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
             <div style="margin-left: 420px">
-            <asp:TextBox ID="txtNombre" runat="server" Width="249px" ViewStateMode="Disabled" MaxLength="15" Class="form-control" placeholder="Ingrese Nombre"></asp:TextBox>
+            <asp:TextBox ID="txtNombre" runat="server" Width="249px" ViewStateMode="Disabled" MaxLength="15" Class="form-control" placeholder="Ingrese Nombre" required='required'></asp:TextBox>
         
-            <asp:RegularExpressionValidator ID="RevNom" runat="server" ControlToValidate="txtNombre" ErrorMessage="Caracteres minimos 3 letras, maximos 15" ValidationExpression="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,15}"></asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="RevNom" runat="server" ControlToValidate="txtNombre" ErrorMessage="Caracteres minimos 3 letras, maximos 15" ValidationExpression="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{3,15}"></asp:RegularExpressionValidator>
         </div>
         </div>
 
@@ -78,8 +78,8 @@
            
             A Paterno:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div style="margin-left: 420px">
-            <asp:TextBox ID="txtAPaterno" runat="server" Width="249px" ViewStateMode="Disabled" MaxLength="15" Class="form-control" placeholder="Apellido Paterno"></asp:TextBox>
-            <asp:RegularExpressionValidator ID="RevAP" runat="server" ControlToValidate="txtAPaterno" ErrorMessage="Caracteres minimos 3 letras, maximo 15" ValidationExpression="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,15}"></asp:RegularExpressionValidator>
+            <asp:TextBox ID="txtAPaterno" runat="server" Width="249px" ViewStateMode="Disabled" MaxLength="15" Class="form-control" placeholder="Apellido Paterno" required='required'></asp:TextBox>
+            <asp:RegularExpressionValidator ID="RevAP" runat="server" ControlToValidate="txtAPaterno" ErrorMessage="Caracteres minimos 3 letras, maximo 15" ValidationExpression="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{3,15}"></asp:RegularExpressionValidator>
         </div>
             </div>
 
@@ -107,7 +107,7 @@
         
        Num. Hermanos:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div style="margin-left: 420px">
-        <asp:TextBox ID="txtHermanos" runat="server" Width="246px" Class="form-control" placeholder="Numero de hermanos" MaxLength="1"></asp:TextBox>
+        <asp:TextBox ID="txtHermanos" runat="server" Width="246px" Class="form-control" placeholder="Numero de hermanos" MaxLength="1" required='required'></asp:TextBox>
     
         <asp:RegularExpressionValidator ID="RevNHermanos" runat="server" ControlToValidate="txtHermanos" ErrorMessage="Solo se aceptan numeros enteros!!!" ValidationExpression="^\d*$"></asp:RegularExpressionValidator>
     </div>
@@ -148,7 +148,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
             Correo electronico:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div style="margin-left: 420px">
-        <asp:TextBox ID="txtCorreo" runat="server" Width="246px" Class="form-control" placeholder="Correo Electronico"></asp:TextBox>
+        <asp:TextBox ID="txtCorreo" runat="server" Width="246px" Class="form-control" placeholder="Correo Electronico" required='required'></asp:TextBox>
     
             <asp:RegularExpressionValidator ID="RevCorreo" runat="server" ControlToValidate="txtCorreo" ErrorMessage="Correo no valido" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
     </div>
@@ -160,9 +160,9 @@
         
         RFC:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div style="margin-left: 420px">
-             <asp:TextBox ID="txtRfc" runat="server" Width="246px" Class="form-control" placeholder="RFC" MaxLength="13"></asp:TextBox>
+             <asp:TextBox ID="txtRfc" runat="server" Width="246px" Class="form-control" placeholder="RFC" MaxLength="13" required='required'></asp:TextBox>
     
-             <asp:RegularExpressionValidator ID="RevRfc" runat="server" ControlToValidate="txtRfc" ErrorMessage="RFC incorrecto" ValidationExpression="^([aA-zZñÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([aA-zZ\d]{3})?$"></asp:RegularExpressionValidator>
+             <asp:RegularExpressionValidator ID="RevRfc" runat="server" ControlToValidate="txtRfc" ErrorMessage="RFC incorrecto" ValidationExpression="^[a-zA-Z]{3,4}(\d{6})((\D|\d){2,3})?$"></asp:RegularExpressionValidator>
     </div>
     </div>
 
@@ -173,7 +173,7 @@
         
         Codigo Postal:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div style="margin-left: 420px">
-        <asp:TextBox ID="txtCPostal" runat="server" Width="246px" MaxLength="5" Class="form-control" placeholder="Codigo Postal"></asp:TextBox>
+        <asp:TextBox ID="txtCPostal" runat="server" Width="246px" MaxLength="5" Class="form-control" placeholder="Codigo Postal" required='required'></asp:TextBox>
     
         <asp:RegularExpressionValidator ID="RevCPostal" runat="server" ControlToValidate="txtCPostal" ErrorMessage="Codigo postal debe contener 5 digitos" ValidationExpression="^\d+$"></asp:RegularExpressionValidator>
     </div>
