@@ -16,6 +16,8 @@ using System.Net.Mail;
 using System.Net;
 using System.Net.Configuration;
 using System.Configuration;
+using System.Text.RegularExpressions;
+using System.Web.UI.WebControls.WebParts;
 
 
 #endregion
@@ -277,6 +279,7 @@ namespace UTTT.Ejemplo.Persona
             }
         }
 
+
         public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona, ref String _mensaje)
         {
 
@@ -359,11 +362,18 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "Correo Electronico esta vacio";
                 return false;
             }
-            if (_persona.strCorreo.Length > 50)
+            
+            if (_persona.strCorreo.Length > 30)
             {
                 _mensaje = "Los caracteres permitidos para Correo Electronico rebasan lo establecido";
                 return false;
             }
+            /*Regex emailValida = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+            if (emailValida.IsMatch(_persona.strCorreo)) {
+                _mensaje = "Verifique su coreo, hay un error";
+                return false;
+            }*/
+            
 
             if (_persona.strRfc.Equals(String.Empty))
             {
