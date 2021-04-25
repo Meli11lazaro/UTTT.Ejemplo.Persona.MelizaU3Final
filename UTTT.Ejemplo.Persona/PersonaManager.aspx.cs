@@ -14,10 +14,9 @@ using UTTT.Ejemplo.Persona.Control;
 using UTTT.Ejemplo.Persona.Control.Ctrl;
 using System.Net.Mail;
 using System.Net;
-using System.Net.Configuration;
 using System.Configuration;
+using System.Net.Configuration;
 using System.Text.RegularExpressions;
-using System.Web.UI.WebControls.WebParts;
 
 
 #endregion
@@ -72,44 +71,68 @@ namespace UTTT.Ejemplo.Persona
                     this.ddlSexo.DataValueField = "id";
                     this.ddlSexo.DataSource = lista;
                     this.ddlSexo.DataBind();
-
                     this.ddlSexo.SelectedIndexChanged += new EventHandler(ddlSexo_SelectedIndexChanged);
                     this.ddlSexo.AutoPostBack = true;
+                    // Catalogo Estado Civil
+                    List<CatEstadoCivil> listaEstado = dcGlobal.GetTable<CatEstadoCivil>().ToList();
+                    this.ddlEstadoCivil.DataTextField = "strValor";
+                    this.ddlEstadoCivil.DataValueField = "id";
+
                     if (this.idPersona == 0)
                     {
                         this.lblAccion.Text = "Agregar";
-                        this.val.Value = null;
+                        this.txtFecha.Value = null;
+                        // Calendario
+                        DateTime tiempo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                        this.txtFechaNac2.Text = Convert.ToString(tiempo.ToShortDateString());
+                        this.CalendarExtender1.SelectedDate = tiempo;
+
+                        // Catalago Estado Civil 
+                        CatEstadoCivil catEstadoCivilTemp = new CatEstadoCivil();
+                        catEstadoCivilTemp.id = -1;
+                        catEstadoCivilTemp.strValor = "Seleccionar";
+                        listaEstado.Insert(0, catEstadoCivilTemp);
+                        this.ddlEstadoCivil.DataSource = listaEstado;
+                        this.ddlEstadoCivil.DataBind();
                     }
                     else
-                    {
+                    {   
                         this.lblAccion.Text = "Editar";
+
                         this.txtNombre.Text = this.baseEntity.strNombre;
                         this.txtAPaterno.Text = this.baseEntity.strAPaterno;
                         this.txtAMaterno.Text = this.baseEntity.strAMaterno;
                         this.txtClaveUnica.Text = this.baseEntity.strClaveUnica;
-                        
+                        DateTime? dtefechaNacimiento = this.baseEntity.strFechaN;
+                        this.txtFecha.Value = dtefechaNacimiento.ToString();
+                        //   this.dteCalendar.TodaysDate = (DateTime)fechaNacimiento;
+                        //   this.dteCalendar.SelectedDate = (DateTime)fechaNacimiento;
                         this.txtHermanos.Text = this.baseEntity.strNHermanos.ToString();
                         this.txtCorreo.Text = this.baseEntity.strCorreo;
                         this.txtCPostal.Text = this.baseEntity.strCPostal;
                         this.txtRfc.Text = this.baseEntity.strRfc;
-                      
-                        DateTime? fechaNacimiento = this.baseEntity.strFechaN;
-                        this.val.Value = fechaNacimiento.ToString();
-                      
-                        this.FechaNaci.TodaysDate = (DateTime)fechaNacimiento;
-                        this.FechaNaci.SelectedDate = (DateTime)fechaNacimiento;
-                        
                         this.setItem(ref this.ddlSexo, baseEntity.CatSexo.strValor);
-                        
                         ddlSexo.Items.FindByValue("-1").Enabled = false;
-                        int valor = baseEntity.CatSexo.id;
-                        if (valor == 1)
+
+                        // Calendario
+                        DateTime fechaNacimiento = (DateTime)this.baseEntity.strFechaN;
+                        if (fechaNacimiento != null)
                         {
-                            ddlSexo.Items.FindByValue("2").Enabled = true;
+                            txtFechaNac2.Text = fechaNacimiento.Date.ToString("yyyy/MM/dd");
                         }
-                        else
+
+                        if (baseEntity.CatEstadoCivil == null)
                         {
-                            ddlSexo.Items.FindByValue("1").Enabled = true;
+                            CatEstadoCivil catEstadoCivilTemp = new CatEstadoCivil();
+                            catEstadoCivilTemp.id = -1;
+                            catEstadoCivilTemp.strValor = "Seleccionar";
+                            listaEstado.Insert(0, catEstadoCivilTemp);
+                        }
+                        this.ddlEstadoCivil.DataSource = listaEstado;
+                        this.ddlEstadoCivil.DataBind();
+                        if (baseEntity.CatEstadoCivil != null)
+                        {
+                            this.setItem(ref this.ddlEstadoCivil, baseEntity.CatEstadoCivil.strValor);
                         }
                     }
                 }
@@ -136,8 +159,9 @@ namespace UTTT.Ejemplo.Persona
                     persona.strAMaterno = this.txtAMaterno.Text.Trim();
                     persona.strAPaterno = this.txtAPaterno.Text.Trim();
                     persona.idCatSexo = int.Parse(this.ddlSexo.Text);
-                    DateTime fechaNacimiento = this.FechaNaci.SelectedDate.Date;
-                    persona.strFechaN = fechaNacimiento;
+                    persona.idCatEstadocivil = int.Parse(this.ddlEstadoCivil.Text);
+                    DateTime strFechaN = Convert.ToDateTime(txtFechaNac2.Text);
+                    persona.strFechaN = strFechaN; 
                     persona.strNHermanos = int.Parse(this.txtHermanos.Text);
 
                     
@@ -183,9 +207,9 @@ namespace UTTT.Ejemplo.Persona
                     persona.strAMaterno = this.txtAMaterno.Text.Trim();
                     persona.strAPaterno = this.txtAPaterno.Text.Trim();
                     persona.idCatSexo = int.Parse(this.ddlSexo.Text);
-                    
-                    DateTime fechaNacimiento = this.FechaNaci.SelectedDate.Date;
-                    persona.strFechaN = fechaNacimiento;
+                    persona.idCatEstadocivil = int.Parse(this.ddlEstadoCivil.Text);
+                    DateTime dtefechaNacimiento = Convert.ToDateTime(txtFechaNac2.Text);
+                    persona.strFechaN = dtefechaNacimiento;
                     persona.strNHermanos = int.Parse(this.txtHermanos.Text);
 
                     persona.strCorreo = this.txtCorreo.Text.Trim();
@@ -282,7 +306,11 @@ namespace UTTT.Ejemplo.Persona
 
         public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona, ref String _mensaje)
         {
-
+            if (_persona.idCatEstadocivil == -1)
+            {
+                _mensaje = "Selecciona tu Estado Civil";
+                return false;
+            }
             if (_persona.idCatSexo == -1)
             {
                 _mensaje = "Seleccione Masculino o Femenino";
@@ -407,20 +435,20 @@ namespace UTTT.Ejemplo.Persona
                 return false;
             }
 
-            //Validacion Calendario
-            DateTime? fechaNacimiento = this.baseEntity.strFechaN;
-            this.val.Value = fechaNacimiento.ToString();
-            TimeSpan timeSpan = DateTime.Now - fechaNacimiento.Value.Date;
-            if (timeSpan.Days < 6570)
-            {
-                _mensaje = "La persona es menor de edad";
-                return false;
-            }
-            if (timeSpan.Days >= 737821)
-            {
-                _mensaje = "La persona es menor de edad, ingrese una fecha correcta";
-                return false;
-            }
+            ////Validacion Calendario
+            //DateTime? fechaNacimiento = this.baseEntity.strFechaN;
+            //this.val.Value = fechaNacimiento.ToString();
+            //TimeSpan timeSpan = DateTime.Now - fechaNacimiento.Value.Date;
+            //if (timeSpan.Days < 6570)
+            //{
+            //    _mensaje = "La persona es menor de edad";
+            //    return false;
+            //}
+            //if (timeSpan.Days >= 737821)
+            //{
+            //    _mensaje = "La persona es menor de edad, ingrese una fecha correcta";
+            //    return false;
+            //}
 
             return true;
         }
@@ -526,9 +554,54 @@ namespace UTTT.Ejemplo.Persona
 
         #endregion
 
-        protected void FechaNaci_SelectionChanged(object sender, EventArgs e)
+        protected void ddlEstadoCivil_SelectedIndexChanged(object sender, EventArgs e)
         {
-            val.Value = FechaNaci.SelectedDate.ToString();
+            try
+            {
+                int idEstadoCivil = int.Parse(this.ddlEstadoCivil.Text);
+                Expression<Func<CatEstadoCivil, bool>> predicateEstadoCivil = c => c.id == idEstadoCivil;
+                predicateEstadoCivil.Compile();
+                List<CatEstadoCivil> lista = dcGlobal.GetTable<CatEstadoCivil>().Where(predicateEstadoCivil).ToList();
+                CatEstadoCivil catEstadoCivilTemp = new CatEstadoCivil();
+                this.ddlEstadoCivil.DataTextField = "strValor";
+                this.ddlEstadoCivil.DataValueField = "id";
+                this.ddlEstadoCivil.DataSource = lista;
+                this.ddlEstadoCivil.DataBind();
+            }
+            catch (Exception _e)
+            {
+                this.showMessage("Ha ocurrido un error inesperado");
+            }
+        }
+        public static int CalcularEdad(DateTime fechaNacimiento)
+        {
+            DateTime fechaActual = DateTime.Today;
+            if (fechaNacimiento > fechaActual)
+            {
+                Console.WriteLine("La fecha de nacimiento es mayor que la actual.");
+                return -1;
+            }
+            else
+            {
+                int edad = fechaActual.Year - fechaNacimiento.Year;
+                if (fechaNacimiento.Month > fechaActual.Month)
+                {
+                    --edad;
+                }
+                else
+                {
+                    if (fechaNacimiento.Day > fechaActual.Day)
+                    {
+                        --edad;
+                    }
+
+                }
+                return edad;
+            }
+        }
+        protected void txtFechaNac2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

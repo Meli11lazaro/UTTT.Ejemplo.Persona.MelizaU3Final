@@ -26,7 +26,30 @@ namespace UTTT.Ejemplo.Linq.Data.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=SQL5101.site4now.net;Initial Catalog=DB_A6DC31_Manual;User Id=DB_A6DC31_Manual_admin;Password=1029384756Meli")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=SQL5104.site4now.net;Initial Catalog=db_a730fe_manual;User Id=db_a730" +
+            "fe_manual_admin;Password=12345678M")]
+        public string ManualConnectionString {
+            get {
+                return ((string)(this["ManualConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=SQL5104.site4now.net;Initial Catalog=db_a730fe_manual;User Id=db_a730" +
+            "fe_manual_admin;Password=12345678M")]
+        public string Manual2ConnectionString {
+            get {
+                return ((string)(this["Manual2ConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=SQL5104.site4now.net;Initial Catalog=db_a730fe_manual;User Id=db_a730" +
+            "fe_manual_admin;Password=12345678M")]
         public string PersonaConnectionString {
             get {
                 return ((string)(this["PersonaConnectionString"]));
@@ -36,10 +59,32 @@ namespace UTTT.Ejemplo.Linq.Data.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=SQL5101.site4now.net;Initial Catalog=DB_A6DC31_Manual;User Id=DB_A6DC31_Manual_admin;Password=1029384756Meli")]
-        public string ManualConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=SQL5104.site4now.net;Initial Catalog=db_a730fe_manual;User Id=db_a730" +
+            "fe_manual_admin;Password=12345678M")]
+        public string PersonaConnectionString1 {
             get {
-                return ((string)(this["ManualConnectionString"]));
+                return ((string)(this["PersonaConnectionString1"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=SQL5104.site4now.net;Initial Catalog=db_a730fe_manual;User Id=db_a730" +
+            "fe_manual_admin;Password=12345678M")]
+        public string PersonaConnectionString2 {
+            get {
+                return ((string)(this["PersonaConnectionString2"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=LAPTOP-PMG3EKLA;Initial Catalog=Persona;Integrated Security=True")]
+        public string PersonaConnectionString3 {
+            get {
+                return ((string)(this["PersonaConnectionString3"]));
             }
         }
     }

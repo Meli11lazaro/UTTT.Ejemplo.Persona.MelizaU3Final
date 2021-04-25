@@ -34,6 +34,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -48,15 +51,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="CtrlValidaInyeccion.cs" />
     <Compile Include="Ctrl\Conexion.cs" />
     <Compile Include="Ctrl\CtrlDireccion.cs" />
+    <Compile Include="Ctrl\CtrlEmail.cs" />
     <Compile Include="Ctrl\CtrlMessage.cs" />
     <Compile Include="Ctrl\CtrlPersona.cs" />
     <Compile Include="Ctrl\CtrlSexo.cs" />
+    <Compile Include="Ctrl\CtrlValidaInjection.cs" />
     <Compile Include="ErrorCtr.cs" />
     <Compile Include="Interface\IOperacion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

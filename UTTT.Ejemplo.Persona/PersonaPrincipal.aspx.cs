@@ -43,6 +43,15 @@ namespace UTTT.Ejemplo.Persona
                     this.ddlSexo.DataValueField = "id";
                     this.ddlSexo.DataSource = lista;
                     this.ddlSexo.DataBind();
+                    List<CatEstadoCivil> listaEstado = dcTemp.GetTable<CatEstadoCivil>().ToList();
+                    CatEstadoCivil catEstadoCivilTemp = new CatEstadoCivil();
+                    catEstadoCivilTemp.id = -1;
+                    catEstadoCivilTemp.strValor = "Seleccionar";
+                    listaEstado.Insert(0, catEstadoCivilTemp);
+                    this.ddlEstadoCivil.DataTextField = "strValor";
+                    this.ddlEstadoCivil.DataValueField = "id";
+                    this.ddlEstadoCivil.DataSource = listaEstado;
+                    this.ddlEstadoCivil.DataBind();
                 }
             }
             catch (Exception _e)
@@ -87,6 +96,7 @@ namespace UTTT.Ejemplo.Persona
                 DataContext dcConsulta = new DcGeneralDataContext();
                 bool nombreBool = false;
                 bool sexoBool = false;
+                bool estadoCivil = false;
                 if (!this.txtNombre.Text.Equals(String.Empty))
                 {
                     nombreBool = true;
@@ -95,11 +105,16 @@ namespace UTTT.Ejemplo.Persona
                 {
                     sexoBool = true;
                 }
+                if (this.ddlEstadoCivil.Text != "-1")
+                {
+                    estadoCivil = true;
+                }
 
                 Expression<Func<UTTT.Ejemplo.Linq.Data.Entity.Persona, bool>> 
                     predicate =
                     (c =>
-                    ((sexoBool) ? c.idCatSexo == int.Parse(this.ddlSexo.Text) : true) &&             
+                    ((sexoBool) ? c.idCatSexo == int.Parse(this.ddlSexo.Text) : true) &&
+                    ((estadoCivil) ? c.idCatEstadocivil == int.Parse(this.ddlEstadoCivil.Text) : true) &&
                     ((nombreBool) ? (((nombreBool) ? c.strNombre.Contains(this.txtNombre.Text.Trim()) : false)) : true)
                     );
 
@@ -199,5 +214,22 @@ namespace UTTT.Ejemplo.Persona
         }
 
         #endregion
+        protected void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+            // ScriptManager.RegisterClientScriptBlock(UpdatePanel1, this.GetType(), "", "alert('" + txtNombre.Text + "')", true);
+
+        }
+
+        protected void BtnRegresar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Response.Redirect("~/Views/PaginaInicio.aspx", false);
+            }
+            catch (Exception _e)
+            {
+                this.showMessage("Ha ocurrido un error inesperado");
+            }
+        }
     }
 }

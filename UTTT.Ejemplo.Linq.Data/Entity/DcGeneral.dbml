@@ -1,11 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Manual" Class="DcGeneralDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-PMG3EKLA;Initial Catalog=Manual;Integrated Security=True" SettingsObjectName="UTTT.Ejemplo.Linq.Data.Properties.Settings" SettingsPropertyName="ManualConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Persona" Class="DcGeneralDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-PMG3EKLA;Initial Catalog=Persona;Integrated Security=True" SettingsObjectName="UTTT.Ejemplo.Linq.Data.Properties.Settings" SettingsPropertyName="PersonaConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.CatEstadoCivil" Member="CatEstadoCivil">
+    <Type Name="CatEstadoCivil">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strValor" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="strDescripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="CatEstadoCivil_Persona" Member="Persona" ThisKey="id" OtherKey="idCatEstadocivil" Type="Persona" />
+    </Type>
+  </Table>
   <Table Name="dbo.CatSexo" Member="CatSexo">
     <Type Name="CatSexo">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="strValor" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="strDescripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="CatSexo_Persona" Member="Persona" ThisKey="id" OtherKey="idCatSexo" Type="Persona" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CatStatusUsuario" Member="CatStatusUsuario">
+    <Type Name="CatStatusUsuario">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strValor" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="strDescripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="CatStatusUsuario_Usuario" Member="Usuario" ThisKey="id" OtherKey="CatValorUsuario" Type="Usuario" />
     </Type>
   </Table>
   <Table Name="dbo.Direccion" Member="Direccion">
@@ -29,10 +45,26 @@
       <Column Name="strFechaN" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="strNHermanos" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="strCorreo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="strRfc" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="strRfc" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="strCPostal" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="idCatEstadocivil" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Persona_Direccion" Member="Direccion" ThisKey="id" OtherKey="idPersona" Type="Direccion" />
+      <Association Name="Persona_Usuario" Member="Usuario" ThisKey="id" OtherKey="strNombrePersona" Type="Usuario" />
       <Association Name="CatSexo_Persona" Member="CatSexo" ThisKey="idCatSexo" OtherKey="id" Type="CatSexo" IsForeignKey="true" />
+      <Association Name="CatEstadoCivil_Persona" Member="CatEstadoCivil" ThisKey="idCatEstadocivil" OtherKey="id" Type="CatEstadoCivil" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuario" Member="Usuario">
+    <Type Name="Usuario">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strNombrePersona" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="strPassword" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="CatValorUsuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="dteFechaRegistro" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="strTokenRecorver" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="CatStatusUsuario_Usuario" Member="CatStatusUsuario" ThisKey="CatValorUsuario" OtherKey="id" Type="CatStatusUsuario" IsForeignKey="true" />
+      <Association Name="Persona_Usuario" Member="Persona" ThisKey="strNombrePersona" OtherKey="id" Type="Persona" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
