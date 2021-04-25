@@ -24,7 +24,6 @@ namespace UTTT.Ejemplo.Persona.Views
             this.lblUsuario.Text = Session["UsernameSession"] as string;
             try
             {
-                // Response.Buffer = true;
                 DataContext dcTemp = new DcGeneralDataContext();
                 if (!this.IsPostBack)
                 {

@@ -87,26 +87,18 @@ namespace UTTT.Ejemplo.Persona.Views
             }
             catch (Exception ex)
             {
-                //Obtenemos el servidor smtp del archivo de configuración.
                 var smtpSection = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
                 string strHost = smtpSection.Network.Host;
                 int port = smtpSection.Network.Port;
                 string strUserName = smtpSection.Network.UserName;
                 string strFromPass = smtpSection.Network.Password;
-
-                //Proporcionamos la información de autenticación al servidor de Gmail
                 SmtpClient smtp = new SmtpClient(strHost, port);
-                MailMessage msg = new MailMessage();
-
-                //Creamos el contenido del correo. 
-                string body = "<h1>Error" + ex.Message + "</h1>";
+                MailMessage msg = new MailMessage();                string body = "<h1>Error" + ex.Message + "</h1>";
                 msg.From = new MailAddress(smtpSection.From, "Prueba");
                 msg.To.Add(new MailAddress("18300498@uttt.edu.mx"));
                 msg.Subject = "Correo";
                 msg.IsBodyHtml = true;
                 msg.Body = body;
-
-                //Enviamos el correo
                 smtp.Credentials = new NetworkCredential(strUserName, strFromPass);
                 smtp.EnableSsl = true;
                 smtp.Send(msg);

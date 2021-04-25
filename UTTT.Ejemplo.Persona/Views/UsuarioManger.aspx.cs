@@ -147,20 +147,6 @@ namespace UTTT.Ejemplo.Persona.Views
                 return false;
             }
 
-
-            /* Validacion Calendario
-
-            TimeSpan timeSpan = DateTime.Now - _usuario.dteFechaRegistro.Value.Date;
-           
-            if (timeSpan.Days >= 737821)
-            {
-                mensaje = "Ingrese una fecha en el calendario";
-                return false;
-            }
-            */
-            /*
-          
-            */
             return true;
         }
 
@@ -401,26 +387,19 @@ namespace UTTT.Ejemplo.Persona.Views
             catch (Exception _e)
             {
 
-                //Obtenemos el servidor smtp del archivo de configuración.
                 var smtpSection = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
                 string strHost = smtpSection.Network.Host;
                 int port = smtpSection.Network.Port;
                 string strUserName = smtpSection.Network.UserName;
                 string strFromPass = smtpSection.Network.Password;
-
-                //Proporcionamos la información de autenticación al servidor de Gmail
                 SmtpClient smtp = new SmtpClient(strHost, port);
                 MailMessage msg = new MailMessage();
-
-                //Creamos el contenido del correo. 
                 string body = "<h1>Error" + _e.Message + "</h1>";
                 msg.From = new MailAddress(smtpSection.From, "Meli");
                 msg.To.Add(new MailAddress("18300498@uttt.edu.mx"));
                 msg.Subject = "Correo";
                 msg.IsBodyHtml = true;
                 msg.Body = body;
-
-                //Enviamos el correo
                 smtp.Credentials = new NetworkCredential(strUserName, strFromPass);
                 smtp.EnableSsl = true;
                 smtp.Send(msg);
